@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>c00lkiddtech</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --accent: #ff1744;
+      --text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at 30% 20%, #ff003b, #000 70%);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .app {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 60px;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px 0;
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .sidebar button {
+      width: 100%;
+      padding: 15px 0;
+      font-size: 22px;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 12px;
+    }
+
+    .sidebar button:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* MAIN CONTENT */
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .panel {
+      height: 100%;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      overflow: auto;
+    }
+
+    .page {
+      display: none;
+      min-height: 100%;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    /* GAME LIST (no icons) */
+    .game-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .game-btn {
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      width: fit-content;
+    }
+    
+    .settings-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .settings-btn {
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      width: fit-content;
+    }
+    
+    .settings-btn:hover {
+      background: rgba(255, 23, 68, 0.3);
+    }
+
+    .game-btn:hover {
+      background: rgba(255, 23, 68, 0.3);
+    }
+
+    /* Game screen (only shown after clicking a game) */
+    #gameScreen {
+      margin-top: 15px;
+      width: 100%;
+      height: 80vh;
+      border-radius: 16px;
+      display: none; /* hidden at first */
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: #000;
+    }
+
+    #gameScreen iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    @media (max-width: 800px) {
+      #gameScreen {
+        height: 60vh;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <button onclick="showPage('home')">🏠</button>
+      <button onclick="showPage('games')">🎮</button>
+      <button onclick="showPage('partners')">❤️</button>
+      <button onclick="showPage('settings')">⚙️</button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content">
+      <div class="panel">
+
+        <!-- HOME PAGE -->
+        <section id="page-home" class="page active">
+          <h1>Welcome to <span style="color: var(--accent)">c00lkiddtech</span></h1>
+          <p id="welcomeName">Logged in as Guest</p>
+        </section>
+
+        <!-- GAMES PAGE -->
+        <section id="page-games" class="page">
+          <h1>Games</h1>
+          <p>Click a game to load it inside the window.</p>
+
+          <div class="game-list">
+            <button class="game-btn"
+              onclick="loadGame('https://student-desmos.vercel.app')">
+              Run 3
+            </button>
+
+            <button class="game-btn"
+              onclick="loadGame('https://eaglercraft-orcin.vercel.app')">
+              Eaglercraft
+            </button>
+
+            <button class="game-btn"
+              onclick="loadGame('https://moto-x3m-chi.vercel.app')">
+              Moto X3M
+            </button>
+
+            <button class="game-btn"
+              onclick="loadGame('https://unbrooked-evc4qgtzr-createdreallol.vercel.app/projects/sm64/index.html')">
+              Super Mario 64
+            </button>
+
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbxGM35J29NkO-2LYjxWj_cA9IUaaXypkUy-LqXyLRbGTz0R6lXmAEapz1STN1jlTIRavw/exec')">
+              Cookie Clicker
+            </button>
+
+            <button class="game-btn"
+              onclick="loadGame('https://codehs.com/sandbox/msmemerguy/raider/run')">
+              Kahoot Raider
+            </button>
+
+            <button class="game-btn"
+              onclick="loadGame('https://2048-sr-tech.vercel.app')">
+              2048
+            </button>
+            
+            <button class="game-btn"
+              onclick="loadGame('https://geektyper.com/tegnio')">
+              Geektyper
+            </button>
+            
+            <button class="game-btn"
+              onclick="loadGame('https://slope-inf.vercel.app')">
+              Slope
+            </button>
+            
+            <button class="game-btn"
+              onclick="loadGame('https://deepai.org/chat/gpt-chat')">
+              ChatGPT
+            </button>
+                        
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbydNb9Y8FIM3D0vcweKtYCYbjJcSXghedO6MN0aWbP5qIwamjjSkBDirvuMHR_6sc4/exec')">
+              Geometry Dash Lite
+            </button>
+                                    
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbxJNtrKTWPCSIo9tOqq53G2xqoQCIPDTYUsVOT79Eqk8I7C5cQkGdDnj0jzlNHa7bvs3g/exec')">
+              FNAF 1
+            </button>
+                                    
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbypOitjGD19RPkCYQ8vgJzFfmtMtnl3naBwSw9OhpqtalZs0k3Pri3nL7X76qUwdV9GGQ/exec')">
+              Pokemon Ruby
+            </button>
+                                    
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbzjgnGGeTNL2DTjJzVx3WGvsLjEyA47O6xYss-ijTLWWwrQv9siK9Gn_QqNDlDkrc27/exec')">
+              man face nugget clicker
+            </button>
+                                    
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycby30nrhMSPeJyfgpPQfLsVVhOxjjyErkIsQtoYAzPkRYenYcSBpVyMcOwXy_flMCjFm/exec')">
+              Angry Birds
+            </button>
+                                                
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbxN6EVQbtkjn6NUiIyJscLGTyyMyAUABzuB_kp4relIe6rr9B8eWmlnlvDsBVtiRa5pPg/exec')">
+              Papa's Pizzaria
+            </button>
+            
+            <button class="game-btn"
+              onclick="loadGame('https://storage.googleapis.com/test-41376.appspot.com/gn.html')">
+              Granny
+            </button>
+            
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbwYa2ttxpXaZwWYxwlXG9c4DWe7ceyuEHYfK0uB9XKKtAqaAczG0O5VoP3fBXDT6VKB/exec')">
+              Sonic 2 Advanced
+            </button>
+            
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbw_N9kFNCWUZrWJCfCv_Ion7Boqtwv1CEdFsIXMXjFZkbYrBgrp_Lviws13VYRzNnD9/exec')">
+              Brainrot Playground
+            </button>
+            
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbygjC3zfZtvLnkZSdN0ZYEX2u1ZGEKeW6fP2y2SC0cJBvYVq7f_wZGbgbrFaq0iUhcNsA/exec')">
+              Melon Playground from TEMU
+            </button>
+            
+            <button class="game-btn"
+              onclick="loadGame('https://script.google.com/macros/s/AKfycbzwDflD6NVq9iPdEWsRyyI4iqR_k47P-BK4sn_vpYaZGsPJz3zDYRDy45azzYiPnYs/exec')">
+              Bottle Flip 3D
+            </button>
+          </div>
+
+          <!-- Game screen appears only after a game is clicked -->
+          <div id="gameScreen"></div>
+        </section>
+
+        <!-- PARTNERS PAGE -->
+        <section id="page-partners" class="page">
+          <h1>Partners</h1>
+          <p>none yet</p>
+        </section>
+
+        <!-- SETTINGS PAGE -->
+        <section id="page-settings" class="page">
+          <h1>Settings</h1>
+          <p>Choose what you want to change.</p>
+          
+          <div class="settings-list">
+          
+          <button onclick="s1()">open in blank</button>
+          
+          
+          <script>
+          function s1(),{ window.location.href = "about:blank"; }
+          </script>
+          
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Switch visible page
+    function showPage(id) {
+      document.querySelectorAll(".page").forEach((p) =>
+        p.classList.remove("active")
+      );
+      document.getElementById("page-" + id).classList.add("active");
+    }
+
+    // Load username from Apps Script
+    try {
+      if (google && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function (name) {
+            document.getElementById("welcomeName").textContent =
+              "Logged in as " + (name || "Guest");
+          })
+          .getUserName();
+      }
+    } catch (e) {
+      // ignore if not in Apps Script or google.script not defined
+    }
+
+    // Load a game URL into the game screen
+    function loadGame(url) {
+      const screen = document.getElementById("gameScreen");
+
+      // Make screen visible if it's hidden
+      screen.style.display = "block";
+
+      // Clear previous iframe if any
+      screen.innerHTML = "";
+
+      // Create iframe
+      const iframe = document.createElement("iframe");
+      iframe.src = url;
+      iframe.allowFullscreen = true;
+
+      screen.appendChild(iframe);
+    }
+  </script>
+</body>
+</html>
